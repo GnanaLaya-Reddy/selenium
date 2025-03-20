@@ -1,19 +1,15 @@
-const {Builder,By,Key,util}=require("selenium-webdriver");
-async function exe()
-{
-    let driver=await new Builder().forBrowser("firefox").build();
+const { Builder } = require('selenium-webdriver');
+const chrome = require('selenium-webdriver/chrome');
 
-    await driver.get("https://www.google.com/");
-    await driver.wait(until.titleContains("Google"),100000);
-    console.log("TEST CASE 1 = GOOGLE");
-
-    await driver.findElement(By.name("q")).sendKeys("selenium",Key.RETURN);
-    await driver.wait(until.titleContains("selenium"),100000);
-    console.log("TEST CASE 2=selenium");
-
-   const c= await driver.findElement(By.name("q"));
-   const d=await c.isDisplayed();
-   console.log("test case 4: ${d}");
-   
-}
-exe();
+(async function setupSelenium() {
+  let driver = await new Builder().forBrowser('chrome').setChromeOptions(new chrome.Options()).build();
+  try {
+    console.log('Selenium WebDriver setup successful!');//print statement
+    await driver.get('https://www.wikipedia.org/'); //opening a website via url
+    await driver.sleep(4000); // Wait for 4 seconds
+  } catch (err) {
+    console.error('Error:', err);//if error print the error
+  } finally {
+    await driver.quit(); // Close the browser
+  }
+})();
